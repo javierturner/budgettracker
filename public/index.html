@@ -21,7 +21,20 @@
       </div>
 
       <form>
-        <label for="transactionName">Transaction Name:</label>
+        <label for="transactionName">Transaction Name: </label>
+        <input type="text" id="transactionName" placeholder="Transaction Name" />
+
+        <label for="transactionAmount">Transaction Amount: </label>
+        <input type="number" id="transactionAmount" min="0" placeholder="Transaction Amount" />
+
+        <div class="transactionButtons">
+          <button id="addBtn">
+            <i class="fa fa-plus">Add Funds</i>
+          </button>
+          <button id="subtractBtn">
+            <i class="fa fa-minus">Subtract Funds</i>
+          </button>
+        </div>
       </form>
 
 
