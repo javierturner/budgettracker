@@ -28,7 +28,7 @@ function populateTotal() {
 }
 
 function populateTable() {
-    const tbody = document.querySelector("#tbody");
+    const tbody = document.querySelector("#transactionBody");
     tbody.innerHTML = "";
 
     transactions.forEach(transaction => {
@@ -78,4 +78,34 @@ function populateChart() {
         }
     })
 }
+
+function sendTransaction(isAdding) {
+    const nameEl = document.querySelector("#transactionName");
+    const amountEl = dacument.querySelector("#transactionAmount");
+    const errorEl = document.querySelector("#form .error");
+
+    if (nameEl.value === "" || amountEl.value === "") {
+        errorEl.textContent = "You are missing information";
+        return:
+    } else {
+        errorEl.textContent = ""
+    }
+}
+
+const transaction = {
+    name: nameEl.value,
+    value: amountEl.value,
+    date: new Date().toISOString()
+};
+
+if (!isAdding) {
+    transaction.value *= -1;
+}
+
+//add to the beginning of the current data array
+transactions.unshift(transaction);
+
+populateChart();
+populateTable();
+populateTotal();
 
