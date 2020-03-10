@@ -1,0 +1,8 @@
+{
+    "manifest_version": 2,
+    "version": "0.1",
+    "name": "Budget Tracker PWA",
+    "short_name": "Budget Tracker",
+    "start_url": "/",
+    "display": "standalone"
+}
