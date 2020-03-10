@@ -1,6 +1,6 @@
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("serviceWorker.js").then(reg => {
+        navigator.serviceWorker.register("service-worker.js").then(reg => {
             console.log("We found your service worker file", reg);
         });
     });
@@ -63,7 +63,7 @@ function populateChart() {
 
     const ctx = document.getElementById("myChart").getContext("2d");
 
-    myChart = new myChart(ctx, {
+    myChart = new Chart(ctx, {
         type: "line",
         date: {
             labels,
@@ -88,7 +88,7 @@ function sendTransaction(isAdding) {
         errorEl.textContent = "You are missing information";
         return;
     } else {
-        errorEl.textContent = ""
+        errorEl.textContent = " ";
     }
 
 
