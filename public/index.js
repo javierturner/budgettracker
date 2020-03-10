@@ -86,7 +86,7 @@ function sendTransaction(isAdding) {
 
     if (nameEl.value === "" || amountEl.value === "") {
         errorEl.textContent = "You are missing information";
-        return:
+        return;
     } else {
         errorEl.textContent = ""
     }
@@ -109,3 +109,34 @@ populateChart();
 populateTable();
 populateTotal();
 
+fetch("/api/transaction", {
+    method: "POST",
+    body: JSON.stringify(transaction),
+    headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+    }
+}).then(response => response.json())
+.then(data => {
+    if (data.errors) {
+        errorEl.textContent = "You are missing information";
+    } else {
+        nameEl.value = "";
+        amountEl.value = "";
+    }
+}).catch(err => {
+    saveRecord(transaction);
+
+    nameEl.value = "";
+    amountEl.value = "";
+});
+
+document.querySelector("#addBtn").addEventListener("click", function(event) {
+    event.preventDefault();
+    sendTransaction(true);
+});
+
+document.querySelector("#subtractBtn").addEventListener("click", function(event) {
+    event.preventDefault();
+    sendTransaction(false);
+});
