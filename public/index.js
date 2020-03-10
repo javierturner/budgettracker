@@ -10,13 +10,13 @@ let transactions = [];
 let myChart;
 
 fetch("/api/transaction").then(response => response.json())
-.then(data => {
-    //save database information
-    transactions = data;
-    populateTotal();
-    populateTable();
-    populateChart();
-});
+    .then(data => {
+        //save database information
+        transactions = data;
+        populateTotal();
+        populateTable();
+        populateChart();
+    });
 
 function populateTotal() {
     const total = transactions.reduce((total, t) => {
@@ -52,7 +52,7 @@ function populateChart() {
         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
     });
 
-    const data = reversed(t => {
+    const data = reverse(t => {
         sum += parseInt(t.value);
         return sum;
     });
@@ -90,53 +90,54 @@ function sendTransaction(isAdding) {
     } else {
         errorEl.textContent = ""
     }
+
+
+    const transaction = {
+        name: nameEl.value,
+        value: amountEl.value,
+        date: new Date().toISOString()
+    };
+
+    if (!isAdding) {
+        transaction.value *= -1;
+    }
+
+    //add to the beginning of the current data array
+    transactions.unshift(transaction);
+
+    populateChart();
+    populateTable();
+    populateTotal();
+
+    fetch("/api/transaction", {
+        method: "POST",
+        body: JSON.stringify(transaction),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    }).then(response => response.json())
+        .then(data => {
+            if (data.errors) {
+                errorEl.textContent = "You are missing information";
+            } else {
+                nameEl.value = "";
+                amountEl.value = "";
+            }
+        }).catch(err => {
+            saveRecord(transaction);
+
+            nameEl.value = "";
+            amountEl.value = "";
+        });
 }
 
-const transaction = {
-    name: nameEl.value,
-    value: amountEl.value,
-    date: new Date().toISOString()
-};
-
-if (!isAdding) {
-    transaction.value *= -1;
-}
-
-//add to the beginning of the current data array
-transactions.unshift(transaction);
-
-populateChart();
-populateTable();
-populateTotal();
-
-fetch("/api/transaction", {
-    method: "POST",
-    body: JSON.stringify(transaction),
-    headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
-    }
-}).then(response => response.json())
-.then(data => {
-    if (data.errors) {
-        errorEl.textContent = "You are missing information";
-    } else {
-        nameEl.value = "";
-        amountEl.value = "";
-    }
-}).catch(err => {
-    saveRecord(transaction);
-
-    nameEl.value = "";
-    amountEl.value = "";
-});
-
-document.querySelector("#addBtn").addEventListener("click", function(event) {
+document.querySelector("#addBtn").addEventListener("click", function (event) {
     event.preventDefault();
     sendTransaction(true);
 });
 
-document.querySelector("#subtractBtn").addEventListener("click", function(event) {
+document.querySelector("#subtractBtn").addEventListener("click", function (event) {
     event.preventDefault();
     sendTransaction(false);
 });
