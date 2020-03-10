@@ -52,7 +52,7 @@ function populateChart() {
         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
     });
 
-    const data = reverse(t => {
+    const data = reversed.map(t => {
         sum += parseInt(t.value);
         return sum;
     });
@@ -81,7 +81,7 @@ function populateChart() {
 
 function sendTransaction(isAdding) {
     const nameEl = document.querySelector("#transactionName");
-    const amountEl = dacument.querySelector("#transactionAmount");
+    const amountEl = document.querySelector("#transactionAmount");
     const errorEl = document.querySelector("#form .error");
 
     if (nameEl.value === "" || amountEl.value === "") {
