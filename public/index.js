@@ -26,3 +26,17 @@ function populateTotal() {
     const totalEl = document.querySelector("#total");
     totalEl.textContent = total;
 }
+
+function populateTable() {
+    const tbody = document.querySelector("#tbody");
+    tbody.innerHTML = "";
+
+    transactions.forEach(transaction => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td>${transaction.name}</td>
+        <td>${transaction.value}</td>`;
+
+        tbody.appendChild(tr);
+    });
+};
