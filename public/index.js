@@ -41,43 +41,83 @@ function populateTable() {
     });
 };
 
+// function populateChart() {
+//     //copy the array and reverse
+//     const reversed = transactions.slice().reverse();
+//     let sum = 0;
+
+//     //creating dates for chart
+//     const labels = reversed.map(t => {
+//         const date = new Date(t.date);
+//         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+//     });
+
+//     const data = reversed.map(t => {
+//         sum += parseInt(t.value);
+//         return sum;
+//     });
+
+//     if (myChart) {
+//         myChart.destroy();
+//     }
+
+//     const ctx = document.getElementById("myChart").getContext("2d");
+
+//     myChart = new Chart(ctx, {
+//         type: "line",
+//         date: {
+//             labels,
+//             datasets: [
+//                 {
+//                     label: "Total over time",
+//                     fill: true,
+//                     backgroundColor: "#6666ff",
+//                     data
+//                 }
+//             ]
+//         }
+//     })
+// }
+
 function populateChart() {
-    //copy the array and reverse
+    // copy array and reverse it
     const reversed = transactions.slice().reverse();
     let sum = 0;
-
-    //creating dates for chart
+  
+    // create date labels for chart
     const labels = reversed.map(t => {
-        const date = new Date(t.date);
-        return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      const date = new Date(t.date);
+      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     });
-
+  
+    // create incremental values for chart
     const data = reversed.map(t => {
-        sum += parseInt(t.value);
-        return sum;
+      sum += parseInt(t.value);
+      return sum;
     });
-
+  
+    // remove old chart if it exists
     if (myChart) {
-        myChart.destroy();
+      myChart.destroy();
     }
-
+  
     const ctx = document.getElementById("myChart").getContext("2d");
-
+  
     myChart = new Chart(ctx, {
-        type: "line",
-        date: {
-            labels,
-            datasets: [
-                {
-                    label: "Total over time",
-                    fill: true,
-                    backgroundColor: "#6666ff",
-                    data
-                }
-            ]
-        }
-    })
-}
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Total Over Time",
+            fill: true,
+            backgroundColor: "#6666ff",
+            data
+          }
+        ]
+      }
+    });
+  }
 
 function sendTransaction(isAdding) {
     const nameEl = document.querySelector("#transactionName");
