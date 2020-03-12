@@ -41,44 +41,6 @@ function populateTable() {
     });
 };
 
-// function populateChart() {
-//     //copy the array and reverse
-//     const reversed = transactions.slice().reverse();
-//     let sum = 0;
-
-//     //creating dates for chart
-//     const labels = reversed.map(t => {
-//         const date = new Date(t.date);
-//         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-//     });
-
-//     const data = reversed.map(t => {
-//         sum += parseInt(t.value);
-//         return sum;
-//     });
-
-//     if (myChart) {
-//         myChart.destroy();
-//     }
-
-//     const ctx = document.getElementById("myChart").getContext("2d");
-
-//     myChart = new Chart(ctx, {
-//         type: "line",
-//         date: {
-//             labels,
-//             datasets: [
-//                 {
-//                     label: "Total over time",
-//                     fill: true,
-//                     backgroundColor: "#6666ff",
-//                     data
-//                 }
-//             ]
-//         }
-//     })
-// }
-
 function populateChart() {
     // copy array and reverse it
     const reversed = transactions.slice().reverse();
@@ -90,7 +52,6 @@ function populateChart() {
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     });
   
-    // create incremental values for chart
     const data = reversed.map(t => {
       sum += parseInt(t.value);
       return sum;
